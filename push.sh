@@ -2,4 +2,7 @@
 
 set -e
 
-docker push wildfish/django-base
+for tag in latest $@; do
+    docker tag wildfish/django-base wildfish/django-base:$tag
+    docker push wildfish/django-base:$tag
+done
