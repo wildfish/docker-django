@@ -5,7 +5,14 @@ services:
 - docker
 script:
 - "./test.sh"
-before_install:
-- openssl aes-256-cbc -K $encrypted_238944315dda_key -iv $encrypted_238944315dda_iv -in deployer.enc -out deployer -d
-after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then ./deploy; fi
+before_deploy:
+- openssl aes-256-cbc -K $encrypted_238944315dda_key -iv $encrypted_238944315dda_iv -in .travis/deployer.enc -out /tmp/deployer -d
+- chmod 600 /tmp/deployer;
+- eval `ssh-agent -s`;
+- ssh-add /tmp/deployer;
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: ./deploy.sh
+  on:
+    branch: master
