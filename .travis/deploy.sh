@@ -3,6 +3,8 @@
 set -e;
 set -x;
 
+cd `dirname $0`
+
 wget https://gist.githubusercontent.com/OmegaDroid/22b6e15b2050841d5733095509a97258/raw/e1c8cf52ee3e139c06fa5ac81e4a326621fdd20e/up_version.py;
 chmod +x up_version.py;
 
