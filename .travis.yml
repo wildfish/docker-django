@@ -7,7 +7,7 @@ script:
 - "./test.sh"
 before_install:
 - openssl aes-256-cbc -K $encrypted_238944315dda_key -iv $encrypted_238944315dda_iv -in deployer.enc -out deployer -d
-- set -e; chmod 600 deploy; eval `ssh-agent -s`; ssh-add deployer;
+- set -e; chmod 600 deployer; eval `ssh-agent -s`; ssh-add deployer;
 after_success:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then
   set -e;
