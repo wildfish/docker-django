@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -x
+set -e
 
 if [ -f .nvmrc ]; then
     NODE_VERSION=`cat .nvmrc`;
@@ -21,8 +21,6 @@ for key in \
 ; do
     gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key";
 done
-
-ENV NPM_CONFIG_LOGLEVEL info
 
 # install build dependencies
 buildDeps='xz-utils'

@@ -57,6 +57,7 @@ WORKDIR /usr/src/app
 # create the script for installing the version of node from .nvmrc
 COPY ./scripts/bootstrap-node.sh /usr/bin/
 RUN chmod 755 /usr/bin/bootstrap-node.sh
+ENV NPM_CONFIG_LOGLEVEL info
 
 # setup github as a known host
 RUN mkdir /root/.ssh
