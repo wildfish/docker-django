@@ -2,9 +2,10 @@
 
 set -x
 
-NODE_VERSION=5.10.1
-if [ -f /.nvmrc ]; then
-    NODE_VERSION=`cat /usr/src/app/.nvmrc`;
+if [ -f .nvmrc ]; then
+    NODE_VERSION=`cat .nvmrc`;
+elif [ -z NODE_VERSION ]; then
+    NODE_VERSION=6.9.5
 fi
 
 # gpg keys listed at https://github.com/nodejs/node

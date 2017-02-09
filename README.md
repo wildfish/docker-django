@@ -30,4 +30,4 @@ port 8000 although these can be overwridden using `WORKDIR`, `CMD` and `EXPOSE` 
 ## Convenience scripts
 
 * `bootstrap-node.sh` - Installs the node version from the `.nvmrc` file in your working directory or the version set in the
-`NODE_VERSION` environment variable. If neither exist `5.10.1` will be installed.
+`NODE_VERSION` environment variable. If neither exist `6.9.5` will be installed.
