@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 if [ -f .nvmrc ]; then
+    echo 'Found .nvmrc'
     NODE_VERSION=`cat .nvmrc`;
-elif [ -z NODE_VERSION ]; then
+elif [ -z $NODE_VERSION ]; then
+    echo 'Default node version not set'
     NODE_VERSION=6.9.5
 fi
+
+echo "Installing node version: ${NODE_VERSION}"
 
 # gpg keys listed at https://github.com/nodejs/node
 for key in \
