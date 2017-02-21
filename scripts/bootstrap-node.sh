@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
 
 if [ -f .nvmrc ]; then
     echo 'Found .nvmrc'
