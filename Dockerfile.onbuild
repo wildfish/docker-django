@@ -1,0 +1,11 @@
+FROM wildfish/django
+
+ONBUILD COPY requirements.txt /usr/src/app/
+ONBUILD RUN pip install --no-cache-dir -r requirements.txt
+
+ONBUILD COPY package.json /usr/src/app/
+ONBUILD RUN npm install --unsafe-perm=true
+
+ONBUILD COPY . /usr/src/app
+
+ONBUILD RUN python manage.py collectstatic --noinput

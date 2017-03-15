@@ -81,16 +81,6 @@ RUN bootstrap-node.sh
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-ONBUILD COPY requirements.txt /usr/src/app/
-ONBUILD RUN pip install --no-cache-dir -r requirements.txt
-
-ONBUILD COPY package.json /usr/src/app/
-ONBUILD RUN npm install --unsafe-perm=true
-
-ONBUILD COPY . /usr/src/app
-
-ONBUILD RUN python manage.py collectstatic --noinput
-
 # by default run the entry point script
 CMD ["scripts/entrypoint.sh"]
 

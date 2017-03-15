@@ -13,13 +13,15 @@ git config --global user.email "deployer@wildfish.com";
 git config --global user.name "WildfishDeployer";
 
 VERSION=`./up_version.py`;
+
 TAGS=()
 echo $LABELS
 for label in ${LABELS}
 do
-    TAGS+=(${label})
-    if [ "${label}" != "latest" ]; then
-        TAGS+=("${VERSION}-${label}")
+    striped_label="$(echo -e "${label}" | tr -d '[:space:]')"
+    TAGS+=(${striped_label})
+    if [ "${striped_label}" != "latest" ]; then
+        TAGS+=("${VERSION}-${striped_label}")
     else
         TAGS+=("${VERSION}")
     fi
