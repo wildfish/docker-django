@@ -51,15 +51,6 @@ RUN pip install psycopg2 \
                 uwsgi \
                 lxml
 
-# Python onbuild steps from https://github.com/docker-library/python/blob/master/3.4/onbuild/Dockerfile
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-# setup github as a known host
-RUN mkdir /root/.ssh
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
 # create the script for installing the version of node from .nvmrc
 # gpg keys listed at https://github.com/nodejs/node
 RUN for key in \
@@ -85,6 +76,20 @@ RUN chmod 755 /usr/bin/bootstrap-node.sh
 ARG NODE_VERSION
 ENV NODE_VERSION ${NODE_VERSION}
 RUN bootstrap-node.sh
+
+# Python onbuild steps from https://github.com/docker-library/python/blob/master/3.6/onbuild/Dockerfile
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ONBUILD COPY requirements.txt /usr/src/app/
+ONBUILD RUN pip install --no-cache-dir -r requirements.txt
+
+ONBUILD COPY package.json /usr/src/app/
+ONBUILD RUN npm install --unsafe-perm=true
+
+ONBUILD COPY . /usr/src/app
+
+ONBUILD RUN python manage.py collectstatic --noinput
 
 # by default run the entry point script
 CMD ["scripts/entrypoint.sh"]
