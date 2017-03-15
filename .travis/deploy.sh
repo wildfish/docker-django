@@ -19,6 +19,8 @@ do
     TAGS+=(${label})
     if [ "${label}" != "latest" ]; then
         TAGS+=("${VERSION}-${label}")
+    else
+        TAGS+=("${VERSION}")
     fi
 done
 
