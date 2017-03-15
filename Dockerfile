@@ -35,10 +35,12 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get update && apt-get install -y \
         libxml2-dev \
         libxslt-dev
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
         libffi-dev \
         g++
+    --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
 RUN pip install pip pip-tools -U
