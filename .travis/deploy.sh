@@ -14,6 +14,7 @@ git config --global user.name "WildfishDeployer";
 
 VERSION=`./up_version.py`;
 TAGS=()
+echo $LABELS
 for label in ${LABELS}
 do
     TAGS+=(${label})

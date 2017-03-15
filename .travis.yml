@@ -2,8 +2,8 @@ language: python
 python:
 - '3.6'
 env:
-- NODE_VERSION=v6.10.0 LABEL="latest node-6.10.0 node-lts"
-- NODE_VERSION=v7.7.3 LABEL="node-7.7.3 node-latest"
+- NODE_VERSION=v6.10.0 LABELS="latest node-6.10.0 node-lts"
+- NODE_VERSION=v7.7.3 LABELS="node-7.7.3 node-latest"
 services:
 - docker
 script:
