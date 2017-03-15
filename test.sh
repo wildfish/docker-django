@@ -4,4 +4,5 @@ set -e
 
 cd `dirname $0`
 ./build.sh
-./build-tests.sh
+
+python -m unittest discover --start-directory tests

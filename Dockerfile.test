@@ -1,8 +1,0 @@
-FROM wildfish/django-base
-
-COPY tests/.nvmrc /usr/src/app/
-RUN bootstrap-node.sh
-
-COPY tests /usr/src/app/tests/
-RUN chmod +x /usr/src/app/tests/*
-RUN python -m unittest discover --start-directory tests

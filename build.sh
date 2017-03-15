@@ -2,4 +2,4 @@
 
 set -e
 
-docker build -t "wildfish/django-base" .
+docker build --build-arg NODE_VERSION="${NODE_VERSION:-v6.10.0}" -t "wildfish/django-base" .
