@@ -34,12 +34,12 @@ RUN apt-get update && apt-get install -y \
 # lxml dependencies
 RUN apt-get update && apt-get install -y \
         libxml2-dev \
-        libxslt-dev
+        libxslt-dev \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
         libffi-dev \
-        g++
+        g++ \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
