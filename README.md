@@ -1,4 +1,4 @@
-# django-base
+# django
 Base docker container including common django dependencies
 
 The idea of this container is to speed up building djanog containers by first bundling common dependencies 

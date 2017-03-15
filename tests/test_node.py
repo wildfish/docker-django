@@ -14,7 +14,7 @@ class Node(TestCase):
         self.assertEqual(b'v5.10.1', actual)
 
     def test_node_version_is_as_expected(self):
-        p = subprocess.Popen(['docker', 'run', 'wildfish/django-base', 'node', '--version'], stdout=subprocess.PIPE)
+        p = subprocess.Popen(['docker', 'run', 'wildfish/django', 'node', '--version'], stdout=subprocess.PIPE)
         out, err = p.communicate()
 
         actual = out.strip()
