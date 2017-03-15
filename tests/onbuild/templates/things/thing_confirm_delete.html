@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block heading %}Delete{% endblock %}
+
+{% block content %}
+    <p>Are you sure you want to delete?</p>
+
+    <form id="thing_form" method="post" action=".">
+    {% csrf_token %}
+    <input type="submit" value="Yes" class="btn btn-primary" /> <a href="{% url 'things:list' %}" class="btn btn-danger">No</a>
+    </form>
+{% endblock %}
+
