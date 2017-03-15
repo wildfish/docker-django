@@ -2,7 +2,6 @@ FROM python:3.6-slim
 
 # Essentials not included in slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates \
         curl \
         wget \
         git-core \
