@@ -26,4 +26,4 @@ done
 
 docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}";
 
-../push.sh $TAGS;
+../push.sh ${TAGS[@]};
