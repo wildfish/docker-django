@@ -1,5 +1,10 @@
 FROM python:3.6-slim
 
+# create the django user
+RUN groupadd -r django && useradd -r -d /home/django -g django django
+RUN mkdir /home/django
+RUN chown -R django:django /home/django
+
 # Essentials not included in slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
@@ -51,15 +56,6 @@ RUN pip install psycopg2 \
                 uwsgi \
                 lxml
 
-# Python onbuild steps from https://github.com/docker-library/python/blob/master/3.4/onbuild/Dockerfile
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-# setup github as a known host
-RUN mkdir /root/.ssh
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
 # create the script for installing the version of node from .nvmrc
 # gpg keys listed at https://github.com/nodejs/node
 RUN for key in \
@@ -85,6 +81,10 @@ RUN chmod 755 /usr/bin/bootstrap-node.sh
 ARG NODE_VERSION
 ENV NODE_VERSION ${NODE_VERSION}
 RUN bootstrap-node.sh
+
+# Python onbuild steps from https://github.com/docker-library/python/blob/master/3.6/onbuild/Dockerfile
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 # by default run the entry point script
 CMD ["scripts/entrypoint.sh"]

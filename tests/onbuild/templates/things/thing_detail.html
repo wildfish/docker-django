@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block heading %}Detail{% endblock %}
+
+{% block content %}
+    <p>{{ object.name }}</p>
+    <a href="{% url 'things:list' %}">List</a>
+{% endblock %}
+

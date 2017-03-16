@@ -1,0 +1,1 @@
+FROM wildfish/django:onbuild
