@@ -1,5 +1,10 @@
 FROM python:3.6-slim
 
+# create the django user
+RUN groupadd -r django && useradd -r -d /home/django -g django django
+RUN mkdir /home/django
+RUN chown -R django:django /home/django
+
 # Essentials not included in slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
