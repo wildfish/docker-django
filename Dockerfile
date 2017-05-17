@@ -47,6 +47,12 @@ RUN apt-get update && apt-get install -y \
         g++ \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
+# pcre for uwsgi routing
+RUN apt-get update && apt-get install -y \
+        libpcre3 \
+        libpcre3-dev \
+        --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
 # Upgrade pip
 RUN pip install pip pip-tools -U
 
@@ -58,7 +64,7 @@ RUN pip install psycopg2 \
 
 # create the script for installing the version of node from .nvmrc
 # gpg keys listed at https://github.com/nodejs/node
-RUN for key in \
+RUN set -e && for key in \
         9554F04D7259F04124DE6B476D5A82AC7E37093B \
         93C7E9E91B49E432C2F75674B0A78B0A6C481CF6 \
         114F43EE0176B71C7BC219DD50A3051F888C628D \
@@ -72,7 +78,9 @@ RUN for key in \
         56730D5401028683275BD23C23EFEFE93C4CFFFE \
         0034A06D9D9B0064CE8ADF6BF1747F4AD2306D93 \
     ; do \
-        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
+        gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
+        gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
     done
 
 COPY ./scripts/bootstrap-node.sh /usr/bin/
