@@ -1,5 +1,7 @@
 FROM python:3.6-slim
 
+ENV UWSGI_CONF ./etc/uwsgi.ini
+
 # create the django user
 RUN groupadd -r django && useradd -r -d /home/django -g django django
 RUN mkdir /home/django
@@ -64,24 +66,21 @@ RUN pip install psycopg2 \
 
 # create the script for installing the version of node from .nvmrc
 # gpg keys listed at https://github.com/nodejs/node
-RUN set -e && for key in \
-        9554F04D7259F04124DE6B476D5A82AC7E37093B \
-        93C7E9E91B49E432C2F75674B0A78B0A6C481CF6 \
-        114F43EE0176B71C7BC219DD50A3051F888C628D \
-        7937DFD2AB06298B2293C3187D33FF9D0246406D \
-        94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
-        FD3A5288F042B6850C66B31F09FE44734EB7990E \
-        71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
-        DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
-        C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
-        B9AE9905FFD7803F25714661B63B535A4C206CA9 \
-        56730D5401028683275BD23C23EFEFE93C4CFFFE \
-        0034A06D9D9B0064CE8ADF6BF1747F4AD2306D93 \
-    ; do \
-        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" || \
-        gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
-        gpg --keyserver keyserver.pgp.com --recv-keys "$key" ; \
-    done
+RUN set -ex \
+  && for key in \
+    9554F04D7259F04124DE6B476D5A82AC7E37093B \
+    94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
+    FD3A5288F042B6850C66B31F09FE44734EB7990E \
+    71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
+    DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
+    B9AE9905FFD7803F25714661B63B535A4C206CA9 \
+    C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8 \
+    56730D5401028683275BD23C23EFEFE93C4CFFFE \
+  ; do \
+    gpg --keyserver pgp.mit.edu --recv-keys "$key" || \
+    gpg --keyserver keyserver.pgp.com --recv-keys "$key" || \
+    gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" ; \
+  done
 
 COPY ./scripts/bootstrap-node.sh /usr/bin/
 RUN chmod 755 /usr/bin/bootstrap-node.sh
@@ -94,7 +93,14 @@ RUN bootstrap-node.sh
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+# create the defaiult entry point and command
+RUN mkdir /usr/src/app/scripts/
+COPY ./scripts/entrypoint.sh /usr/src/app/scripts/entrypoint.sh
+COPY ./scripts/run-uwsgi.sh /usr/src/app/scripts/run-uwsgi.sh
+RUN chmod 755 /usr/src/app/scripts/*
+
 # by default run the entry point script
-CMD ["scripts/entrypoint.sh"]
+ENTRYPOINT ["scripts/entrypoint.sh"]
+CMD ["scripts/run-uwsgi.sh"]
 
 EXPOSE 8000
