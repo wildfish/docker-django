@@ -1,5 +1,7 @@
 FROM python:3.6-slim
 
+ENV UWSGI_CONF ./etc/uwsgi.ini
+
 # create the django user
 RUN groupadd -r django && useradd -r -d /home/django -g django django
 RUN mkdir /home/django
@@ -94,7 +96,14 @@ RUN bootstrap-node.sh
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+# create the defaiult entry point and command
+RUN mkdir /usr/src/app/scripts/
+COPY ./scripts/entrypoint.sh /usr/src/app/scripts/entrypoint.sh
+COPY ./scripts/run-uwsgi.sh /usr/src/app/scripts/run-uwsgi.sh
+RUN chmod 755 /usr/src/app/scripts/*
+
 # by default run the entry point script
-CMD ["scripts/entrypoint.sh"]
+ENTRYPOINT ["scripts/entrypoint.sh"]
+CMD ["scripts/run-uwsgi.sh"]
 
 EXPOSE 8000

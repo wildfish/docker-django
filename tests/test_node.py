@@ -19,4 +19,4 @@ class Node(TestCase):
 
         actual = out.strip()
 
-        self.assertEqual(environ.get('NODE_VERSION').encode(), actual)
+        self.assertEqual(environ.get('NODE_VERSION', 'v6.11.3').encode(), actual)

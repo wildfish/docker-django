@@ -6,11 +6,16 @@ that would usually take a while to install (eg image libraries for pillow).
 
 Scripts for installing other components are also included such as node.js.
 
-## Assumptions
+## Default Behaviour
 
-The image assumes you are using `/usr/src/app/` as your working directory (as per the official Python
-images), `script/entrypoint.sh` as your entry point and port 8000 although these can be overwridden using
-`WORKDIR`, `CMD` and `EXPOSE` respectively.
+* Working Directory (`WORKDIR`): `/usr/src/app/`. If you are using one of the `onbuild` images your source 
+  will be copied here.
+* Listening Ports (`EXPOSE`): 8000
+* Entry Point (`ENTRYPOINT`): `./scripts/entrypoint.sh`. By default this just calls the command. To adjust 
+  this behaviour update the `ENTRYPOINT` instruction to point to a new file or provide a custom 
+  `./scripts/entrypoint.sh`, This can be useful for checking other services are up and running for example.
+* Command (`CMD`): `./scripts/run-uwsgi.sh`. By default this will just call uwsgi passing in the config found
+  in the `$UWSGI_CONF` environment variable (`./etc/uwsgi.ini` by default).  
 
 ## Installed dependencies
 
