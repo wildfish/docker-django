@@ -2,6 +2,9 @@ FROM python:3.6-slim
 
 ENV UWSGI_CONF ./etc/uwsgi.ini
 
+RUN sed 's/jessie/stretch/g' /etc/apt/sources.list -i && \
+        apt-get update && apt-get upgrade -y
+
 # create the django user
 RUN groupadd -r django && useradd -r -d /home/django -g django django
 RUN mkdir /home/django
@@ -17,10 +20,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Database drivers 
 RUN apt-get update && apt-get install -y \
-        postgresql-client libpq-dev \
-        gdal-bin binutils libgdal1-dev \
+        libpq-dev \
+        gdal-bin binutils libgdal-dev \
         gcc \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
+RUN echo deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main >> /etc/apt/sources.list && \
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+        apt-get update && apt-get install postgresql-client -y
 
 # Pillow dependencies
 RUN apt-get update && apt-get install -y \
