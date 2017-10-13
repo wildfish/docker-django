@@ -11,7 +11,7 @@ git remote set-url origin "git@github.com:wildfish/docker-django.git"
 git config --global user.email "deployer@wildfish.com";
 git config --global user.name "WildfishDeployer";
 
-VERSION=`./up_version.py`;
+VERSION=`./up_version.py ${PUSH_TAGS:""}`;
 
 TAGS=()
 echo $LABELS
