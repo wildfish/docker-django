@@ -2,8 +2,8 @@ language: python
 python:
 - '3.6'
 env:
-- NODE_VERSION=v6.11.3 LABELS="latest node-6.10.0 node-lts"
-- NODE_VERSION=v8.4.0 LABELS="node-7.7.3 node-latest" PUSH_TAGS="--no-push"
+- NODE_VERSION=v6.11.3 LABELS="latest node-6.10.0 node-lts" PUSH_TAGS=true
+- NODE_VERSION=v8.4.0 LABELS="node-7.7.3 node-latest"
 services:
 - docker
 script:
@@ -16,6 +16,12 @@ before_deploy:
 deploy:
 - provider: script
   skip_cleanup: true
-  script: ./.travis/deploy.sh
+  script: ./.travis/tag.sh
+  condition: $PUSH_TAGS = true
   on:
     branch: master
+- provider: script
+  skip_cleanup: true
+  script: ./.travis/deploy.sh
+  on:
+    tags: true
