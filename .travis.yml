@@ -17,8 +17,8 @@ deploy:
 - provider: script
   skip_cleanup: true
   script: ./.travis/tag.sh
-  condition: $PUSH_TAGS = true
   on:
+    condition: $PUSH_TAGS = true
     branch: master
 - provider: script
   skip_cleanup: true
