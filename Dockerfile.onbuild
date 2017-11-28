@@ -11,4 +11,5 @@ ONBUILD COPY . /usr/src/app
 ONBUILD RUN chown -R django:django /usr/src/app/
 ONBUILD USER django
 
+ONBUILD RUN ./scripts/build-static.sh
 ONBUILD RUN python manage.py collectstatic --noinput

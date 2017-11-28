@@ -100,10 +100,11 @@ RUN bootstrap-node.sh
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# create the defaiult entry point and command
+# create the default entry point, command and static build scripts
 RUN mkdir /usr/src/app/scripts/
 COPY ./scripts/entrypoint.sh /usr/src/app/scripts/entrypoint.sh
 COPY ./scripts/run-uwsgi.sh /usr/src/app/scripts/run-uwsgi.sh
+COPY ./scripts/build-static.sh /usr/src/app/scripts/build-static.sh
 RUN chmod 755 /usr/src/app/scripts/*
 
 # by default run the entry point script
