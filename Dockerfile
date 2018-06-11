@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         wget \
         git-core \
         ssh \
+        gnupg \
+        dirmngr \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # Database drivers 
